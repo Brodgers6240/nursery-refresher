@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Phone-friendly newborn nursery refresher for returning nurses.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nursery">
+<meta name="robots" content="noindex">
+<style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Nursery Refresher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: sticky search + chip rail on top, one section at a time, collapsible cards sized for a thumb */
+:root{
+  --bg:#f3f6f6; --surface:#ffffff; --ink:#15272b; --muted:#566b70; --line:#d7e1e2;
+  --accent:#0f6f73; --accent-soft:#dcefee; --warn:#b4452c; --warn-soft:#fbe7e1; --ok:#2f7a3e; --ok-soft:#e2f2e4;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0f1a1c; --surface:#16252a; --ink:#e3eeee; --muted:#9db3b6; --line:#28403f;
+  --accent:#5cc3c0; --accent-soft:#173a3b; --warn:#f08a6c; --warn-soft:#3a2119; --ok:#7ccc8a; --ok-soft:#1b3322; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0f1a1c; --surface:#16252a; --ink:#e3eeee; --muted:#9db3b6; --line:#28403f;
+  --accent:#5cc3c0; --accent-soft:#173a3b; --warn:#f08a6c; --warn-soft:#3a2119; --ok:#7ccc8a; --ok-soft:#1b3322; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;margin:0}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px 8px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+h1{font-family:var(--display);font-weight:800;font-size:1.45rem;letter-spacing:-.01em;margin:0}
+.sub{font-size:.8rem;color:var(--muted)}
+#q{width:100%;margin-top:8px;padding:10px 12px;font:inherit;font-size:16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+#q:focus-visible,.chip:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+nav{display:flex;gap:6px;overflow-x:auto;padding-block:8px 2px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font:inherit;font-size:.85rem;font-weight:700;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+section{display:grid;gap:10px;padding-top:14px}
+h2{font-family:var(--display);font-weight:800;font-size:1.25rem;margin:4px 0 0;text-wrap:balance}
+.lede{color:var(--muted);font-size:.9rem;margin:0}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:700;display:flex;justify-content:space-between;gap:10px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--display);font-size:1.3rem;color:var(--accent);line-height:1}
+details[open] summary::after{content:"–"}
+.body{padding:0 14px 14px;display:grid;gap:10px;min-width:0}
+.body p,.body ul,.body ol{margin:0}
+.body ul,.body ol{padding-left:1.2em;display:grid;gap:4px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;vertical-align:top;padding:7px 9px;border-bottom:1px solid var(--line)}
+th{background:var(--accent-soft);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700}
+.flag{background:var(--warn-soft);border-left:4px solid var(--warn);padding:8px 10px;border-radius:6px;font-size:.92rem}
+.flag b:first-child{color:var(--warn)}
+.tip{background:var(--ok-soft);border-left:4px solid var(--ok);padding:8px 10px;border-radius:6px;font-size:.92rem}
+.new{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--bg);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.banner{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.85rem;color:var(--muted)}
+.empty{color:var(--muted);padding:12px 2px}
+mark{background:var(--accent-soft);color:var(--ink);border-radius:3px}
+a{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<header>
+  <div class="brand"><h1>Nursery Refresher</h1><span class="sub">Term &amp; late-preterm newborn · bedside memory jog</span></div>
+  <input id="q" type="search" placeholder="Search: glucose, NG, Ortolani, bili…" aria-label="Search all sections" autocomplete="off">
+  <nav id="nav" aria-label="Sections"></nav>
+</header>
+
+<main id="main">
+
+<!-- ================= QUICK ================= -->
+<section data-sec="quick" data-name="Quick card">
+  <h2>Quick card</h2>
+  <p class="lede">The numbers you reach for most. Details are in each section.</p>
+  <div class="banner">Memory aid only. Your facility's policies, order sets and formulary win every time. Verify every dose with the order and pharmacy.</div>
+
+  <details open><summary>Term newborn vitals</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Parameter</th><th>Normal</th><th>Notes</th></tr>
+      <tr><td>Heart rate</td><td>110–160</td><td>Sleep may dip to ~90–100; crying up to ~180</td></tr>
+      <tr><td>Resp rate</td><td>30–60</td><td>Count a full 60 sec; periodic breathing (pauses &lt;20 s) is normal</td></tr>
+      <tr><td>Temp (axillary)</td><td>36.5–37.5 °C<br>97.7–99.5 °F</td><td>Recheck in 15–30 min after a warming intervention</td></tr>
+      <tr><td>SpO₂ after transition</td><td>≥95%</td><td>See Vitals for minute-by-minute targets after birth</td></tr>
+      <tr><td>BP (term)</td><td>SBP ~60–90<br>DBP ~30–60</td><td>Not routine in well-baby; four-extremity BP if coarctation suspected</td></tr>
+      <tr><td>Cap refill</td><td>&lt;3 sec</td><td>Press over sternum or forehead</td></tr>
+    </table></div>
+  </div></details>
+
+  <details><summary>Measurements</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Item</th><th>Term range</th></tr>
+      <tr><td>Weight</td><td>2500–4000 g (5 lb 8 oz – 8 lb 13 oz)</td></tr>
+      <tr><td>Length</td><td>48–53 cm (19–21 in)</td></tr>
+      <tr><td>Head circ</td><td>33–35.5 cm (13–14 in); chest runs ~2 cm smaller</td></tr>
+      <tr><td>Weight loss</td><td>Up to ~7% expected; ≥10% needs a feeding plan and provider review</td></tr>
+      <tr><td>Back to birth weight</td><td>By 10–14 days</td></tr>
+    </table></div>
+  </div></details>
+
+  <details><summary>Glucose at a glance (at-risk infants, first 24 h)</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Age</th><th>Action threshold</th><th>Pre-feed target</th></tr>
+      <tr><td>0–4 h</td><td>&lt;25 mg/dL → feed, recheck in 1 h</td><td>≥40</td></tr>
+      <tr><td>4–24 h</td><td>&lt;35 mg/dL → feed, recheck in 1 h</td><td>≥45</td></tr>
+    </table></div>
+    <div class="flag"><b>Any symptoms + glucose &lt;40</b> → IV dextrose, notify provider now.</div>
+    <p class="sub">AAP 2011 algorithm; many units use a gel-first protocol. See Labs &amp; Emergencies.</p>
+  </div></details>
+
+  <details><summary>Routine newborn meds</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Med</th><th>Dose</th></tr>
+      <tr><td>Vitamin K</td><td>1 mg IM once (0.5 mL of 2 mg/mL neonatal strength), vastus lateralis</td></tr>
+      <tr><td>Erythromycin 0.5% ointment</td><td>1 cm ribbon each eye, within 1–2 h of birth</td></tr>
+      <tr><td>Hep B vaccine</td><td>0.5 mL IM. Required within 12 h if mom HBsAg+ or unknown. Policy changed for HBsAg-negative moms (see Meds)</td></tr>
+      <tr><td>RSV antibody (Oct–Mar)</td><td>Nirsevimab 50 mg IM if &lt;5 kg, or clesrovimab 105 mg IM, when indicated</td></tr>
+    </table></div>
+  </div></details>
+
+  <details><summary>Output expectations</summary><div class="body">
+    <ul>
+      <li><b>First void</b> by 24 h. <b>First meconium</b> by 24–48 h.</li>
+      <li>Wet diapers ≈ day of life through day 5–6, then 6+/day.</li>
+      <li>Stools shift from meconium → green/brown transitional (days 2–4) → yellow seedy (breastfed, by day 4–5).</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Red flags that need a call now</summary><div class="body">
+    <ul>
+      <li>Jaundice in the first 24 h</li>
+      <li>Central cyanosis, grunting, retractions, RR persistently &gt;60</li>
+      <li>Bilious (green) emesis</li>
+      <li>Temp instability (low temp is the more common sepsis sign in newborns)</li>
+      <li>Lethargy, poor suck, high-pitched cry, apnea</li>
+      <li>Boggy scalp swelling that crosses sutures and keeps growing (subgaleal)</li>
+      <li>No void by 24 h or no stool by 48 h</li>
+      <li>Failed CCHD screen</li>
+    </ul>
+  </div></details>
+</section>
+
+<!-- ================= VITALS ================= -->
+<section data-sec="vitals" data-name="Vitals & transition" hidden>
+  <h2>Vitals &amp; transition</h2>
+  <p class="lede">Couplet-care rhythm is different from stepdown. Expect less monitoring, more hands-on assessment and teaching.</p>
+
+  <details><summary>Target preductal SpO₂ after birth (NRP)</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Minute</th><th>Target</th></tr>
+      <tr><td>1 min</td><td>60–65%</td></tr>
+      <tr><td>2 min</td><td>65–70%</td></tr>
+      <tr><td>3 min</td><td>70–75%</td></tr>
+      <tr><td>4 min</td><td>75–80%</td></tr>
+      <tr><td>5 min</td><td>80–85%</td></tr>
+      <tr><td>10 min</td><td>85–95%</td></tr>
+    </table></div>
+    <p>Probe goes on the <b>right hand/wrist</b> (preductal).</p>
+  </div></details>
+
+  <details><summary>Apgar score</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Sign</th><th>0</th><th>1</th><th>2</th></tr>
+      <tr><td>Appearance</td><td>Blue/pale all over</td><td>Acrocyanosis</td><td>Pink all over</td></tr>
+      <tr><td>Pulse</td><td>Absent</td><td>&lt;100</td><td>≥100</td></tr>
+      <tr><td>Grimace</td><td>No response</td><td>Grimace</td><td>Cry, cough, sneeze</td></tr>
+      <tr><td>Activity</td><td>Limp</td><td>Some flexion</td><td>Active motion</td></tr>
+      <tr><td>Respiration</td><td>Absent</td><td>Slow, irregular</td><td>Good cry</td></tr>
+    </table></div>
+    <p>Scored at 1 and 5 min. If the 5-min score is &lt;7, keep scoring every 5 min up to 20 min. Apgar is not used to decide whether to resuscitate.</p>
+  </div></details>
+
+  <details><summary>Periods of reactivity (normal transition)</summary><div class="body">
+    <ul>
+      <li><b>First reactivity (0–30 min):</b> alert, rooting, HR up to ~180, RR up to ~80, some crackles or flaring. Best window for skin-to-skin and first breastfeed.</li>
+      <li><b>Sleep / decreased responsiveness (30 min – 2 h):</b> HR and RR settle; hard to wake. Good time for vitals and meds.</li>
+      <li><b>Second reactivity (2–8 h):</b> awake again, mucus, gagging, may pass meconium. Watch for spit-up and color changes.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Thermoregulation</summary><div class="body">
+    <ul>
+      <li>Heat loss routes: <b>evaporation</b> (wet skin, bath), <b>conduction</b> (cold scale or hands), <b>convection</b> (drafts), <b>radiation</b> (cold window or wall).</li>
+      <li>Newborns make heat from brown fat (non-shivering thermogenesis). This burns glucose and oxygen, so cold stress leads to hypoglycemia, acidosis and respiratory distress.</li>
+      <li>Fixes: skin-to-skin, dry and hat, warm blankets, radiant warmer on servo.</li>
+      <li>Bath: delay at least 6–8 h (WHO suggests ≥24 h) and only once temp is stable.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Apnea vs periodic breathing</summary><div class="body">
+    <p><b>Periodic breathing:</b> pauses &lt;20 sec with no color or HR change. Normal.</p>
+    <p><b>Apnea:</b> pause ≥20 sec, or a shorter pause with bradycardia (&lt;100), desaturation or color change. Stimulate first; PPV if no response. Notify provider and think sepsis, hypoglycemia, hypothermia, seizure.</p>
+  </div></details>
+
+  <details><summary>Pain scales</summary><div class="body">
+    <p><b>NIPS</b> (Neonatal Infant Pain Scale): facial expression, cry, breathing pattern, arms, legs, state of arousal. Scored 0–7; &gt;3 suggests moderate pain and &gt;4 severe.</p>
+    <p><b>N-PASS</b> is also common and covers sedation too. Use whichever your unit charts.</p>
+    <p>Non-drug comfort: swaddling, facilitated tuck, skin-to-skin, breastfeeding during the procedure, non-nutritive sucking, 24% oral sucrose per protocol.</p>
+  </div></details>
+</section>
+
+<!-- ================= ASSESSMENT ================= -->
+<section data-sec="assess" data-name="Assessment" hidden>
+  <h2>Assessment</h2>
+  <p class="lede">Head to toe. Normal variants first, then what to report.</p>
+
+  <details><summary>Gestational age &amp; size terms</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Term</th><th>Definition</th></tr>
+      <tr><td>Late preterm</td><td>34 0/7 – 36 6/7 wk</td></tr>
+      <tr><td>Early term</td><td>37 0/7 – 38 6/7 wk</td></tr>
+      <tr><td>Full term</td><td>39 0/7 – 40 6/7 wk</td></tr>
+      <tr><td>Late term</td><td>41 0/7 – 41 6/7 wk</td></tr>
+      <tr><td>SGA / AGA / LGA</td><td>&lt;10th / 10–90th / &gt;90th percentile for GA</td></tr>
+    </table></div>
+    <p>SGA, LGA, late preterm and infants of diabetic mothers all need glucose screening. Late preterms look like term babies but feed, thermoregulate and clear bilirubin like preemies.</p>
+    <p>New Ballard Score: 6 neuromuscular items plus 6 physical items, each scored, total converts to estimated GA.</p>
+  </div></details>
+
+  <details><summary>Head &amp; scalp</summary><div class="body">
+    <ul>
+      <li><b>Anterior fontanelle:</b> diamond, soft and flat, roughly 1–4 cm. Closes 12–18 mo. <b>Posterior:</b> triangle, fingertip size, closes by ~2 mo.</li>
+      <li>Bulging when calm = raised ICP. Sunken = dehydration.</li>
+      <li><b>Molding:</b> overlapping sutures after vaginal birth. Resolves in days.</li>
+    </ul>
+    <div class="tbl"><table>
+      <tr><th>Swelling</th><th>Crosses sutures?</th><th>Key points</th></tr>
+      <tr><td>Caput succedaneum</td><td>Yes</td><td>Soft, pitting edema present at birth. Gone in days.</td></tr>
+      <tr><td>Cephalohematoma</td><td>No</td><td>Firm, appears hours after birth, takes weeks. Adds bilirubin load.</td></tr>
+      <tr><td>Subgaleal hemorrhage</td><td>Yes</td><td>Boggy, fluctuant, spreads toward neck and ears. Often after vacuum. Can cause hypovolemic shock.</td></tr>
+    </table></div>
+    <div class="flag"><b>Subgaleal:</b> serial head circumference, frequent vitals, call provider immediately. Watch for tachycardia, pallor, falling Hct.</div>
+  </div></details>
+
+  <details><summary>Face, eyes, ears, nose, mouth</summary><div class="body">
+    <ul>
+      <li><b>Eyes:</b> red reflex in both eyes. Absent or white reflex needs ophthalmology. Subconjunctival hemorrhage is a normal birth finding.</li>
+      <li><b>Ears:</b> top of the pinna lines up with the outer canthus. Low-set ears suggest a syndrome. Preauricular pits or tags: flag for hearing screen follow-up.</li>
+      <li><b>Nose:</b> newborns breathe through the nose. Cyanosis that improves with crying suggests <b>choanal atresia</b>; check that a catheter passes each naris if concerned.</li>
+      <li><b>Mouth:</b> look at and palpate the palate for a cleft. Epstein pearls (small white cysts) are normal. Note natal teeth, tongue-tie, and suck strength.</li>
+      <li>Asymmetric cry or facial droop = facial nerve palsy (often after forceps).</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Neck, chest, lungs, heart</summary><div class="body">
+    <ul>
+      <li><b>Clavicles:</b> crepitus, a lump or an asymmetric Moro suggests fracture. Most common in LGA babies and after shoulder dystocia.</li>
+      <li><b>Chest:</b> breast buds and even "witch's milk" are maternal hormone effects. Supernumerary nipples are a normal variant.</li>
+      <li><b>Respiratory distress signs:</b> RR &gt;60, grunting, nasal flaring, retractions, see-saw breathing, cyanosis.</li>
+      <li><b>Heart:</b> PMI at the 4th intercostal space, left of the midclavicular line. Soft murmurs are common in the first 24–48 h while the PDA closes. Report any murmur.</li>
+      <li><b>Femoral pulses</b> should be equal to brachial. Weak or absent femorals suggest coarctation.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Abdomen, cord, GU, anus</summary><div class="body">
+    <ul>
+      <li>Soft and rounded. A <b>scaphoid</b> abdomen with respiratory distress suggests diaphragmatic hernia.</li>
+      <li>Liver edge 1–2 cm below the right costal margin is normal.</li>
+      <li><b>Cord:</b> 2 arteries + 1 vein (AVA). A single umbilical artery is linked to renal and other anomalies; report it.</li>
+      <li><b>Female:</b> swollen labia, white mucus or a small amount of blood (pseudomenses) are hormone effects.</li>
+      <li><b>Male:</b> both testes descended; urethral meatus at the tip. Hypospadias means no circumcision until urology weighs in. Hydrocele transilluminates.</li>
+      <li><b>Anus:</b> check patency and position. Document first meconium.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Back, spine, hips</summary><div class="body">
+    <ul>
+      <li><b>Sacral dimple:</b> reassuring if small, within the gluteal crease and base visible. Report if &gt;5 mm, &gt;2.5 cm above the anus, or paired with a hair tuft, hemangioma, skin tag or discoloration.</li>
+      <li><b>Barlow:</b> adduct the hip and push posteriorly. Tests whether the hip can be dislocated.</li>
+      <li><b>Ortolani:</b> abduct and lift the greater trochanter. A "clunk" means a dislocated hip is reducing.</li>
+      <li>Other signs: uneven knee heights (Galeazzi), asymmetric thigh folds, limited abduction.</li>
+      <li>DDH risk factors: breech, female, family history, first-born.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Extremities &amp; brachial plexus</summary><div class="body">
+    <ul>
+      <li>Count fingers and toes; check for webbing. A single transverse palmar crease can be a normal variant or linked to trisomy 21.</li>
+      <li><b>Erb palsy (C5–C6):</b> arm limp, adducted and internally rotated, wrist flexed ("waiter's tip"). Grasp is intact.</li>
+      <li><b>Klumpke palsy (C8–T1):</b> hand weakness, claw hand, absent grasp.</li>
+      <li>Positional foot deformities correct with gentle range of motion. Clubfoot does not.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Skin findings</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Finding</th><th>What it means</th></tr>
+      <tr><td>Acrocyanosis</td><td>Blue hands and feet, normal for the first 24–48 h</td></tr>
+      <tr><td>Central cyanosis</td><td>Blue lips, tongue or trunk. Abnormal; get SpO₂ and notify</td></tr>
+      <tr><td>Mottling</td><td>Cold stress, or a sign of sepsis or poor perfusion</td></tr>
+      <tr><td>Erythema toxicum</td><td>Red blotches with a white or yellow center, days 1–3. Benign, comes and goes</td></tr>
+      <tr><td>Milia</td><td>Tiny white bumps on the nose and chin. Benign</td></tr>
+      <tr><td>Dermal melanocytosis</td><td>Blue-gray patches, usually sacral (formerly "Mongolian spots"). Document size and location so it is not mistaken for bruising</td></tr>
+      <tr><td>Nevus simplex</td><td>"Stork bite" on the nape or eyelids. Fades</td></tr>
+      <tr><td>Port-wine stain</td><td>Flat, dark red, permanent. On the face, raises concern for Sturge-Weber</td></tr>
+      <tr><td>Harlequin color change</td><td>One half of the body red, the other pale. Brief and benign</td></tr>
+      <tr><td>Petechiae</td><td>Normal on the presenting part after birth. Widespread or new petechiae suggest low platelets or infection</td></tr>
+      <tr><td>Jaundice</td><td>Spreads head to toe. Any jaundice in the first 24 h is pathologic</td></tr>
+      <tr><td>Peeling, cracked skin</td><td>Post-term infant</td></tr>
+    </table></div>
+  </div></details>
+
+  <details><summary>Neuro, reflexes, jitteriness vs seizure</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Reflex</th><th>How to elicit</th><th>Fades by</th></tr>
+      <tr><td>Moro</td><td>Sudden head drop: arms extend, then come back in</td><td>~4–6 mo</td></tr>
+      <tr><td>Rooting</td><td>Stroke the cheek: turns toward it</td><td>~4 mo</td></tr>
+      <tr><td>Suck</td><td>Finger on palate: strong rhythmic suck</td><td>Becomes voluntary</td></tr>
+      <tr><td>Palmar grasp</td><td>Finger in palm</td><td>~3–4 mo</td></tr>
+      <tr><td>Plantar grasp</td><td>Press the ball of the foot</td><td>~8–10 mo</td></tr>
+      <tr><td>Babinski</td><td>Stroke the sole: toes fan</td><td>~12–24 mo</td></tr>
+      <tr><td>Tonic neck</td><td>Turn head: "fencer" pose</td><td>~4–6 mo</td></tr>
+      <tr><td>Stepping</td><td>Hold upright, feet on a surface</td><td>~2 mo</td></tr>
+      <tr><td>Galant</td><td>Stroke along the spine: trunk curves toward that side</td><td>~4–6 mo</td></tr>
+    </table></div>
+    <p>A normal term baby rests in flexion. Floppy or "frog-leg" posture is abnormal. An asymmetric Moro points to clavicle fracture or brachial plexus injury.</p>
+    <div class="tbl"><table>
+      <tr><th></th><th>Jitteriness</th><th>Seizure</th></tr>
+      <tr><td>Stops when limb is held</td><td>Yes</td><td>No</td></tr>
+      <tr><td>Triggered by stimulation</td><td>Often</td><td>Usually not</td></tr>
+      <tr><td>Eye deviation, lip smacking, apnea</td><td>No</td><td>May be present</td></tr>
+      <tr><td>HR/BP/SpO₂ changes</td><td>No</td><td>Often</td></tr>
+    </table></div>
+    <p>For jitteriness, check glucose (and calcium if ordered). Also consider withdrawal.</p>
+  </div></details>
+
+  <details><summary>Withdrawal: Eat, Sleep, Console <span class="new">Newer</span></summary><div class="body">
+    <p>Many units have replaced Finnegan scoring for opioid-exposed newborns with <b>Eat, Sleep, Console (ESC)</b>. It is function-based and puts non-drug care first.</p>
+    <ul>
+      <li><b>Eat:</b> can the baby breastfeed ≥10 min or take an age-appropriate bottle volume?</li>
+      <li><b>Sleep:</b> can the baby sleep ≥1 h after feeding?</li>
+      <li><b>Console:</b> can the baby be consoled within 10 min?</li>
+    </ul>
+    <p>A "no" triggers a huddle to add non-drug support first (parent at bedside, skin-to-skin, low stimulation, swaddle, on-demand feeds). Medication is considered only if non-drug care is maximized and the infant still struggles.</p>
+    <p>Other withdrawal signs: high-pitched cry, tremors, hypertonia, sneezing, yawning, loose stools, poor feeding, skin excoriation.</p>
+  </div></details>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section data-sec="skills" data-name="Skills" hidden>
+  <h2>Hands-on skills</h2>
+  <p class="lede">Steps as a memory prompt. Follow your unit's procedure and supplies.</p>
+
+  <details><summary>NG / OG tube placement</summary><div class="body">
+    <p><span class="label">Size</span><br>Term: 5–8 Fr (5 or 6.5 Fr is common for feeding; 8 Fr for decompression). Late preterm: 5 Fr.</p>
+    <p><span class="label">Measure</span><br><b>NG:</b> nose → earlobe → midpoint between xiphoid and umbilicus (NEMU). <b>OG:</b> corner of mouth → earlobe → same midpoint. NEMU is more accurate than the older nose-ear-xiphoid method.</p>
+    <ol>
+      <li>Hand hygiene, gather supplies, swaddle. Monitor HR and SpO₂.</li>
+      <li>Head neutral or slightly flexed. Lubricate the tip with sterile water.</li>
+      <li>Insert gently along the floor of the nose (NG) or over the tongue (OG). Offer a pacifier to encourage swallowing.</li>
+      <li>Stop and pull back for bradycardia, desaturation, coughing, color change or resistance. These are vagal responses or signs of entering the airway.</li>
+      <li>Advance to the measured mark. Secure with tape or a securement device. Document the cm mark at the naris or lip.</li>
+      <li><b>Verify:</b> X-ray is the gold standard for initial placement. Gastric aspirate pH ≤5 supports gastric placement (per unit policy). The "whoosh" auscultation test is not reliable.</li>
+      <li>Before every feed: check the cm mark, check for residual per order, and look for respiratory distress.</li>
+    </ol>
+  </div></details>
+
+  <details><summary>Peripheral IV (PIV)</summary><div class="body">
+    <p><span class="label">Supplies</span><br>24 G catheter, T-connector primed with NS, transparent dressing, tape, tourniquet or rubber band, antiseptic per policy, sucrose, transilluminator or vein finder.</p>
+    <p><span class="label">Sites</span><br>Dorsal hand, forearm, antecubital, saphenous (ankle), dorsal foot, scalp (only per policy and after talking with parents).</p>
+    <ol>
+      <li>Comfort first: swaddle other limbs, 24% sucrose ~2 min before, a second person to hold if available.</li>
+      <li>Transilluminate to map the vein. Apply the tourniquet or gently squeeze the limb.</li>
+      <li>Clean per policy. CHG use in newborns varies by age and gestation; follow your unit.</li>
+      <li>Bevel up, 10–30° angle. Watch for flashback (it can be slow with a 24 G).</li>
+      <li>Lower the angle, advance slightly, thread the catheter off the needle. Release the tourniquet.</li>
+      <li>Connect the primed T-connector, flush slowly with 0.5–1 mL NS. Watch for blanching or swelling.</li>
+      <li>Secure with a clear dressing so the site stays visible. Avoid circumferential tape.</li>
+    </ol>
+    <div class="tip">INS standard: no more than 2 attempts per clinician and 4 total before escalating.</div>
+    <div class="flag"><b>Check the site at least hourly</b> (common neonatal standard) for swelling, blanching, coolness, leaking or a firm tract. Stop the infusion at the first sign of infiltration.</div>
+  </div></details>
+
+  <details><summary>Heel stick &amp; newborn screen card</summary><div class="body">
+    <ol>
+      <li>Use the <b>lateral or medial plantar edge</b> of the heel. Avoid the back curve and center (calcaneus and nerve risk).</li>
+      <li>Warm the heel 3–5 min to improve flow.</li>
+      <li>Clean, let it dry, use an automated lancet.</li>
+      <li>Wipe away the first drop. Gentle squeeze-and-release; hard milking hemolyzes the sample (falsely high K⁺).</li>
+    </ol>
+    <p><span class="label">Newborn screen card</span></p>
+    <ul>
+      <li>Collect at 24–48 h of age (after 24 h of feeding is ideal).</li>
+      <li>Fill each circle from <b>one side</b> with one large drop until it soaks through. Don't layer, and don't touch the filter paper.</li>
+      <li>Dry flat, away from heat and sunlight, 3–4 h before packaging.</li>
+      <li>Repeat is often required if drawn before 24 h, after a transfusion, or during TPN. Follow your state program.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>IM injection</summary><div class="body">
+    <ul>
+      <li>Site: <b>vastus lateralis</b> (anterolateral thigh, middle third).</li>
+      <li>Needle: 25 G, 5/8 inch, 90° angle. Stabilize the thigh.</li>
+      <li>Keep to about 0.5 mL per site in the newborn. Give different products in different thighs, or space them ≥1 inch apart in the same thigh.</li>
+      <li>Breastfeeding or skin-to-skin during the injection reduces pain.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>CCHD pulse oximetry screen</summary><div class="body">
+    <p>At ≥24 h of age (or just before discharge if earlier). Measure the <b>right hand</b> and <b>either foot</b>.</p>
+    <div class="tbl"><table>
+      <tr><th>Result</th><th>Criteria</th></tr>
+      <tr><td>Pass</td><td>≥95% in hand <i>or</i> foot <b>and</b> difference ≤3%</td></tr>
+      <tr><td>Repeat once in 1 h</td><td>90–94% in both, <i>or</i> difference &gt;3%</td></tr>
+      <tr><td>Fail</td><td>&lt;90% in either, or still in repeat range on the second check</td></tr>
+    </table></div>
+    <p>A fail means provider evaluation and echocardiogram. The 2020 AAP update cut the algorithm from two repeats to one.</p>
+  </div></details>
+
+  <details><summary>Circumcision care</summary><div class="body">
+    <ul>
+      <li>Check for bleeding frequently in the first hours (per policy). Apply gentle pressure with gauze; call if it persists.</li>
+      <li><b>Gomco or Mogen clamp:</b> petroleum jelly on gauze at each diaper change for several days.</li>
+      <li><b>Plastibell:</b> no petroleum needed. Ring falls off in 5–8 days. Report if it slips onto the shaft.</li>
+      <li>Yellow film on the glans on day 2–3 is normal healing tissue, not pus.</li>
+      <li>Document the first void after the procedure.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Phototherapy</summary><div class="body">
+    <ul>
+      <li>Maximize exposed skin. A diaper can stay on. Cover the eyes; check the shield position regularly.</li>
+      <li>Intensive phototherapy: irradiance ≥30 µW/cm²/nm over as much body surface as possible.</li>
+      <li>Monitor temp, hydration, stool count and weight. Loose green stools are expected.</li>
+      <li>Skin color is not a guide once lights are on; follow serum levels.</li>
+      <li>Keep feeding. Interruptions for breastfeeding are generally fine unless bili is near exchange level.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Car seat tolerance screen</summary><div class="body">
+    <p>For infants born &lt;37 weeks (and others per policy). Baby sits in their own car seat for 90–120 min, or the length of the ride home if longer.</p>
+    <p><b>Fail</b> (common criteria): apnea ≥20 s, HR &lt;80 for ≥10 s, or SpO₂ &lt;88% for ≥10 s. Notify the provider.</p>
+  </div></details>
+</section>
+
+<!-- ================= MEDS ================= -->
+<section data-sec="meds" data-name="Meds" hidden>
+  <h2>Medications</h2>
+  <p class="lede">Common nursery and early-sepsis meds for term and late-preterm infants. Always check the order and your neonatal formulary; doses shift with gestational and postnatal age.</p>
+
+  <details open><summary>Vitamin K (phytonadione)</summary><div class="body">
+    <p><b>Dose:</b> 1 mg IM once, within about 6 h of birth. Neonatal concentration 2 mg/mL = 0.5 mL. (Preterm &lt;1 kg: 0.3–0.5 mg/kg.)</p>
+    <p><b>Why:</b> prevents vitamin K deficiency bleeding. Newborns are born with low stores and breast milk is low in vitamin K.</p>
+    <p><b>Refusals:</b> late VKDB (weeks 2–12) can present as intracranial bleeding. Educate and document per policy. No FDA-approved oral product exists in the US.</p>
+  </div></details>
+
+  <details><summary>Erythromycin ophthalmic ointment 0.5%</summary><div class="body">
+    <p><b>Dose:</b> 1 cm ribbon in each lower conjunctival sac, inner to outer canthus, within 1–2 h of birth. Don't wipe off for 1 min.</p>
+    <p><b>Why:</b> prevents gonococcal ophthalmia neonatorum. It can be delayed briefly to allow bonding and the first feed.</p>
+  </div></details>
+
+  <details><summary>Hepatitis B vaccine &amp; HBIG <span class="new">Changed</span></summary><div class="body">
+    <p><b>Dose:</b> 0.5 mL IM (Engerix-B 10 mcg or Recombivax HB 5 mcg).</p>
+    <div class="tbl"><table>
+      <tr><th>Mom's HBsAg</th><th>Infant plan</th></tr>
+      <tr><td>Positive</td><td>Hep B vaccine <b>+ HBIG 0.5 mL IM</b> within 12 h, in separate thighs</td></tr>
+      <tr><td>Unknown</td><td>Vaccine within 12 h. Test mom right away. If &lt;2000 g, give HBIG within 12 h too. If ≥2000 g and mom tests positive, HBIG by 7 days</td></tr>
+      <tr><td>Negative</td><td><b>CDC (since Dec 2025):</b> individual decision with parents; if not given at birth, first dose no earlier than 2 mo.<br><b>AAP:</b> still recommends the birth dose within 24 h for stable infants ≥2000 g</td></tr>
+    </table></div>
+    <div class="tip">This is a live policy split. Ask your unit which standard its order set follows.</div>
+  </div></details>
+
+  <details><summary>RSV monoclonal antibody <span class="new">New</span></summary><div class="body">
+    <p>Given during RSV season (Oct 1 – Mar 31 in most of the continental US), ideally during the birth stay.</p>
+    <div class="tbl"><table>
+      <tr><th>Product</th><th>Dose</th></tr>
+      <tr><td>Nirsevimab (Beyfortus)</td><td>50 mg IM if &lt;5 kg; 100 mg IM if ≥5 kg</td></tr>
+      <tr><td>Clesrovimab (Enflonsia)</td><td>105 mg (0.7 mL) IM, any weight</td></tr>
+    </table></div>
+    <p><b>Give it if:</b> mom did not get an RSV vaccine in pregnancy, her status is unknown, or the baby was born less than 14 days after she got it. Most infants born ≥14 days after maternal vaccination don't need it.</p>
+    <p>Can be given the same day as other newborn injections.</p>
+  </div></details>
+
+  <details><summary>Oral sucrose 24%</summary><div class="body">
+    <p><b>Use:</b> short procedural pain (heel stick, IV, IM, NG).</p>
+    <p><b>Dose:</b> per unit protocol. Term infants commonly get about 0.5–2 mL, dripped on the front of the tongue or inside the cheek ~2 min before the procedure, often with a pacifier.</p>
+  </div></details>
+
+  <details><summary>Dextrose gel 40%</summary><div class="body">
+    <p><b>Dose:</b> 0.5 mL/kg (200 mg/kg) to the buccal mucosa. Dry the cheek, massage it in, then feed.</p>
+    <p><b>Use:</b> asymptomatic hypoglycemia in infants ≥35 weeks, usually in the first 48 h. Recheck glucose ~30 min after. Most protocols allow a limited number of doses before IV dextrose.</p>
+  </div></details>
+
+  <details><summary>IV dextrose (D10W)</summary><div class="body">
+    <p><b>Bolus (mini-bolus):</b> 2 mL/kg of D10W IV (200 mg/kg), then a continuous infusion.</p>
+    <p><b>Maintenance:</b> start around GIR 4–6 mg/kg/min. D10W at 80 mL/kg/day ≈ GIR 5.5.</p>
+    <p><b>GIR formula:</b> (dextrose % × mL/kg/day) ÷ 144.</p>
+    <p>Never give concentrated dextrose (D25/D50) peripherally to a newborn.</p>
+  </div></details>
+
+  <details><summary>Ampicillin &amp; gentamicin (early-onset sepsis)</summary><div class="body">
+    <p>Doses below are typical for ≥35 weeks and ≤7 days old. Confirm with the order and pharmacy.</p>
+    <div class="tbl"><table>
+      <tr><th>Drug</th><th>Typical dose</th><th>Notes</th></tr>
+      <tr><td>Ampicillin</td><td>50 mg/kg IV q8h</td><td>Higher doses for GBS meningitis</td></tr>
+      <tr><td>Gentamicin</td><td>4 mg/kg IV q24h</td><td>Trough and peak per protocol. Watch urine output (nephrotoxic) and hearing (ototoxic)</td></tr>
+    </table></div>
+    <p>Draw the blood culture <b>before</b> the first antibiotic dose.</p>
+  </div></details>
+
+  <details><summary>Acetaminophen</summary><div class="body">
+    <p><b>Typical term dose:</b> 10–15 mg/kg PO q6h PRN (common after circumcision). Check the formulary for daily maximums, which depend on gestational and postnatal age.</p>
+  </div></details>
+
+  <details><summary>Resuscitation drugs (NRP)</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Drug</th><th>Dose</th><th>Notes</th></tr>
+      <tr><td>Epinephrine IV/IO</td><td>0.02 mg/kg (range 0.01–0.03) = 0.2 mL/kg of 0.1 mg/mL</td><td>Preferred route. Follow with 3 mL NS flush. Repeat every 3–5 min</td></tr>
+      <tr><td>Epinephrine ETT</td><td>0.1 mg/kg (range 0.05–0.1) = 1 mL/kg of 0.1 mg/mL</td><td>Only while IV/IO access is being placed</td></tr>
+      <tr><td>Volume (NS or O-neg blood)</td><td>10 mL/kg IV over 5–10 min</td><td>For suspected blood loss or poor response</td></tr>
+    </table></div>
+    <p><b>Naloxone</b> is not part of NRP delivery-room resuscitation. Support breathing with PPV instead. Giving it to an infant of an opioid-dependent mother can trigger seizures.</p>
+  </div></details>
+</section>
+
+<!-- ================= LABS ================= -->
+<section data-sec="labs" data-name="Labs" hidden>
+  <h2>Labs &amp; what you'll see</h2>
+  <p class="lede">Normal ranges for term newborns and how abnormal values tend to show up at the bedside. Ranges vary by lab.</p>
+
+  <details open><summary>Glucose</summary><div class="body">
+    <p><b>Who gets screened:</b> SGA, LGA, infant of diabetic mother, late preterm (34–36 6/7). Also anyone with symptoms, hypothermia, sepsis concerns, or poor feeding.</p>
+    <div class="tbl"><table>
+      <tr><th>Age</th><th>Glucose</th><th>Action (AAP 2011)</th></tr>
+      <tr><td>0–4 h</td><td>&lt;25</td><td>Feed, recheck in 1 h. Still &lt;25 → IV dextrose. 25–40 → refeed or IV as needed</td></tr>
+      <tr><td>4–24 h</td><td>&lt;35</td><td>Feed, recheck in 1 h. Still &lt;35 → IV dextrose. 35–45 → refeed or IV as needed</td></tr>
+      <tr><td>Target</td><td>≥45 pre-feed</td><td>Pediatric Endocrine Society: aim &gt;50 in the first 48 h and &gt;60 after 48 h</td></tr>
+    </table></div>
+    <p><b>At the bedside:</b> jitteriness, poor feeding, lethargy, weak or high-pitched cry, hypothermia, tachypnea, apnea, cyanosis, sweating, hypotonia, seizures. Many low babies have no symptoms at all.</p>
+    <p>Point-of-care meters are less accurate at low values. Send a serum glucose to confirm a critical low, but don't delay treatment waiting for it.</p>
+  </div></details>
+
+  <details><summary>Bilirubin <span class="new">Changed</span></summary><div class="body">
+    <ul>
+      <li><b>Physiologic jaundice</b> appears after 24 h and peaks around day 3–5 in term infants.</li>
+      <li><b>Jaundice before 24 h</b> is always pathologic. Think hemolysis (ABO or Rh), sepsis.</li>
+      <li>Jaundice spreads head to toe. Visual estimates are unreliable, especially in darker skin; use TcB or TSB.</li>
+      <li><b>AAP 2022 guideline:</b> phototherapy thresholds are based on gestational age, hours of life, and neurotoxicity risk factors. The old Bhutani risk-zone chart is no longer used for decisions. Use the AAP curves or BiliTool.</li>
+      <li><b>Neurotoxicity risk factors:</b> GA &lt;38 wk, albumin &lt;3.0 g/dL, isoimmune hemolytic disease (positive DAT), G6PD deficiency or other hemolysis, sepsis, significant clinical instability in the past 24 h.</li>
+      <li>Get a TSB if TcB is within 3 mg/dL of the phototherapy threshold or ≥15 mg/dL.</li>
+      <li><b>Direct (conjugated) bilirubin &gt;1.0 mg/dL</b> is abnormal and needs follow-up (cholestasis, biliary atresia). Look for pale stools and dark urine.</li>
+    </ul>
+    <div class="flag"><b>Acute bilirubin encephalopathy:</b> early lethargy, low tone, poor suck; then high-pitched cry, arching (opisthotonus), backward neck arching (retrocollis), fever. Emergency.</div>
+  </div></details>
+
+  <details><summary>CBC</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Test</th><th>Term normal</th><th>Bedside picture if abnormal</th></tr>
+      <tr><td>Hemoglobin</td><td>14–24 g/dL</td><td>Low: pallor, tachycardia, poor perfusion (blood loss, hemolysis, subgaleal)</td></tr>
+      <tr><td>Hematocrit</td><td>42–65%</td><td>Venous &gt;65% = polycythemia: ruddy color, sluggish, hypoglycemia, jaundice, resp distress. Common in IDM, SGA, delayed cord clamping</td></tr>
+      <tr><td>WBC</td><td>9–30 ×10³/µL at birth</td><td>High or low can both suggest infection. Very low neutrophils are more concerning than high WBC</td></tr>
+      <tr><td>I:T ratio</td><td>&lt;0.2</td><td>&gt;0.2 suggests bacterial infection</td></tr>
+      <tr><td>Platelets</td><td>150–450 ×10³/µL</td><td>Low: petechiae, oozing from puncture sites, bruising. Think sepsis, maternal ITP, alloimmune</td></tr>
+    </table></div>
+  </div></details>
+
+  <details><summary>CRP &amp; blood culture</summary><div class="body">
+    <ul>
+      <li><b>CRP:</b> normal &lt;1 mg/dL (&lt;10 mg/L). It rises 6–8 h after infection starts and peaks at 36–48 h. Two normal values 24 h apart help rule out sepsis.</li>
+      <li><b>Blood culture:</b> at least 1 mL for good sensitivity. Draw before antibiotics. Most true positives grow by 36 h.</li>
+      <li>The <b>Kaiser Early-Onset Sepsis Calculator</b> (≥34 wk) combines maternal risk factors with the infant's exam to guide observation, labs, or antibiotics. Many units now use it instead of treating by risk factors alone.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Electrolytes &amp; calcium</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Test</th><th>Normal</th><th>Bedside picture if abnormal</th></tr>
+      <tr><td>Sodium</td><td>135–145 mEq/L</td><td>High: excess weight loss, dehydration, poor feeding. Low: seizures, lethargy</td></tr>
+      <tr><td>Potassium</td><td>3.5–6.0 mEq/L</td><td>Heel-stick hemolysis often reads falsely high. True high: arrhythmia (peaked T waves)</td></tr>
+      <tr><td>Total calcium</td><td>~8–10.5 mg/dL</td><td>Low (&lt;8 term, or ionized &lt;1.1 mmol/L): jitteriness, tetany, seizures, apnea. Common in IDM, asphyxia, preterm</td></tr>
+      <tr><td>Magnesium</td><td>1.6–2.4 mg/dL</td><td>High after maternal magnesium: floppy, weak suck, respiratory depression</td></tr>
+    </table></div>
+  </div></details>
+
+  <details><summary>Blood gases</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Value</th><th>Arterial normal</th></tr>
+      <tr><td>pH</td><td>7.35–7.45</td></tr>
+      <tr><td>PaCO₂</td><td>35–45 mmHg</td></tr>
+      <tr><td>PaO₂</td><td>50–80 mmHg (newborn)</td></tr>
+      <tr><td>HCO₃⁻</td><td>20–26 mEq/L</td></tr>
+      <tr><td>Base excess</td><td>−4 to +4</td></tr>
+    </table></div>
+    <p><b>Cord gas:</b> umbilical arterial pH ≥7.20 is reassuring. pH &lt;7.0 or base deficit ≥12 means significant acidemia; watch for encephalopathy (low tone, poor suck, seizures) and report for possible cooling evaluation.</p>
+  </div></details>
+
+  <details><summary>Blood type, DAT &amp; maternal labs to review</summary><div class="body">
+    <ul>
+      <li>Mom <b>type O</b> or <b>Rh negative</b> → infant blood type and DAT (Coombs) per policy.</li>
+      <li><b>DAT positive</b> = antibody-coated red cells, higher risk of hemolysis and early, fast-rising bilirubin. It is a neurotoxicity risk factor in the AAP bili curves.</li>
+      <li>Always review mom's chart: blood type, GBS status and whether she got adequate prophylaxis (penicillin, ampicillin or cefazolin ≥4 h before delivery), HBsAg, HIV, syphilis, rubella, hep C, rupture-of-membranes time, maternal fever, substance exposure, diabetes.</li>
+      <li>Congenital syphilis cases have risen sharply in the past several years. Many states now require third-trimester and delivery testing.</li>
+    </ul>
+  </div></details>
+</section>
+
+<!-- ================= FEEDING ================= -->
+<section data-sec="feed" data-name="Feeding" hidden>
+  <h2>Feeding &amp; output</h2>
+  <p class="lede">Couplet teaching takes up much of a nursery shift.</p>
+
+  <details open><summary>Stomach size &amp; typical volumes</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Day</th><th>Stomach capacity</th><th>Typical formula per feed</th></tr>
+      <tr><td>Day 1</td><td>~5–7 mL</td><td>~5–15 mL</td></tr>
+      <tr><td>Day 2</td><td>~10–15 mL</td><td>~10–20 mL</td></tr>
+      <tr><td>Day 3</td><td>~22–27 mL</td><td>~15–30 mL</td></tr>
+      <tr><td>Day 7</td><td>~45–60 mL</td><td>~45–90 mL</td></tr>
+    </table></div>
+    <p>Standard formula is 20 kcal/oz. Goal for most term infants is about 100–120 kcal/kg/day once feeding is established.</p>
+  </div></details>
+
+  <details><summary>Breastfeeding</summary><div class="body">
+    <ul>
+      <li>8–12 feeds per 24 h, on cue. Don't let a baby go longer than ~3 h in the first days if they aren't waking.</li>
+      <li><b>Early cues:</b> stirring, mouth opening, rooting, hands to mouth. Crying is a late cue.</li>
+      <li><b>Good latch:</b> wide mouth, flanged lips, more areola visible above the top lip than below, chin touching breast, audible swallows, no pain after the first few sucks.</li>
+      <li><b>LATCH score</b> (0–10): Latch, Audible swallowing, Type of nipple, Comfort, Hold.</li>
+      <li>Sleepy baby: skin-to-skin, unwrap, diaper change, hand expression onto the nipple.</li>
+      <li>Supplement only with a medical indication or informed parent choice, per Baby-Friendly practices.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Bottle feeding</summary><div class="body">
+    <ul>
+      <li><b>Paced feeding:</b> baby upright, bottle horizontal, pauses every few swallows. Helps late preterms and prevents overfeeding.</li>
+      <li>Burp midway and at the end.</li>
+      <li>Watch for stress cues: fingers splayed, eyebrows raised, milk leaking from mouth, color change, desaturation.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Weight loss tool</summary><div class="body">
+    <p>The <b>NEWT</b> (Newborn Weight Tool, newbornweight.org) plots weight loss by hours of age and delivery type against population percentiles. Above the 75th percentile warrants closer feeding review.</p>
+    <p>Percent loss = (birth weight − current weight) ÷ birth weight × 100.</p>
+  </div></details>
+
+  <details><summary>Spit-up vs vomiting</summary><div class="body">
+    <ul>
+      <li>Small spit-ups and mucusy gagging in the first 24 h are common.</li>
+      <li>Projectile vomiting after weeks 2–6 suggests pyloric stenosis (not usually a nursery issue).</li>
+    </ul>
+    <div class="flag"><b>Bilious (green) emesis</b> = malrotation with volvulus until proven otherwise. Hold feeds and notify the provider immediately.</div>
+  </div></details>
+</section>
+
+<!-- ================= EMERGENCIES ================= -->
+<section data-sec="emerg" data-name="Emergencies" hidden>
+  <h2>Emergencies</h2>
+  <p class="lede">The fast-recall version. Your NRP card and unit protocols take priority.</p>
+
+  <details open><summary>NRP flow <span class="new">2025 update</span></summary><div class="body">
+    <ol>
+      <li><b>Before birth:</b> GA? Fluid clear? How many babies? Risk factors? Umbilical cord plan? Check equipment.</li>
+      <li><b>Term, good tone, breathing or crying?</b> Yes → skin-to-skin with mom, dry, ongoing assessment. Defer cord clamping ≥60 s for babies who don't need immediate resuscitation.</li>
+      <li><b>No:</b> warm, dry, stimulate, position airway. Suction only if the airway is visibly blocked or PPV is needed.</li>
+      <li><b>Apnea, gasping, or HR &lt;100</b> within 1 min → start PPV, SpO₂ monitor, consider ECG. Rate 40–60 breaths/min (2025 guidance accepts 30–60). Rising HR is the main sign that PPV is working.</li>
+      <li>Starting O₂: <b>21% for ≥35 weeks</b>. 21–30% for 32–34 6/7 wk. Higher for &lt;32 wk.</li>
+      <li>HR not rising → <b>MR. SOPA</b>: Mask adjust, Reposition airway, Suction, Open mouth, Pressure increase, Alternative airway (ETT or laryngeal mask).</li>
+      <li><b>HR &lt;60 after 30 s of effective PPV</b> (preferably through an alternative airway) → chest compressions, 100% O₂. Two-thumb technique, lower third of the sternum, 1/3 chest depth. <b>3:1 ratio</b> = 90 compressions + 30 breaths/min.</li>
+      <li><b>HR still &lt;60 after 60 s of compressions</b> → epinephrine IV/IO (UVC preferred). Consider volume.</li>
+    </ol>
+    <div class="tbl"><table>
+      <tr><th>GA / weight</th><th>ETT size</th></tr>
+      <tr><td>&lt;28 wk / &lt;1000 g</td><td>2.5</td></tr>
+      <tr><td>28–34 wk / 1000–2000 g</td><td>3.0</td></tr>
+      <tr><td>&gt;34 wk / &gt;2000 g</td><td>3.5</td></tr>
+    </table></div>
+    <p>ETT depth: nasal-tragus length + 1 cm, or use the GA table on the NRP card. Laryngeal mask is an option for ≥34 weeks.</p>
+  </div></details>
+
+  <details><summary>Hypoglycemia response</summary><div class="body">
+    <ol>
+      <li>Confirm with POC and send a serum glucose. Don't wait for the result to treat.</li>
+      <li><b>Asymptomatic:</b> dextrose gel 0.5 mL/kg (if in protocol) + feed. Recheck in 30–60 min per protocol.</li>
+      <li><b>Symptomatic, or glucose below the IV threshold after feeding:</b> notify the provider, place a PIV, D10W 2 mL/kg bolus, then continuous infusion.</li>
+      <li>Keep the baby warm. Hypothermia worsens hypoglycemia.</li>
+    </ol>
+  </div></details>
+
+  <details><summary>Respiratory distress: common causes</summary><div class="body">
+    <div class="tbl"><table>
+      <tr><th>Condition</th><th>Clues</th></tr>
+      <tr><td>Transient tachypnea (TTN)</td><td>C-section or fast delivery. Tachypnea, mild O₂ need. Improves over 24–72 h</td></tr>
+      <tr><td>RDS</td><td>Preterm or IDM. Worsens over the first hours: grunting, retractions</td></tr>
+      <tr><td>Meconium aspiration</td><td>Meconium-stained fluid, post-term. Barrel chest, coarse breath sounds</td></tr>
+      <tr><td>Pneumothorax</td><td>Sudden worsening, uneven breath sounds, shifted heart sounds. Transilluminate the chest</td></tr>
+      <tr><td>PPHN</td><td>Preductal SpO₂ &gt;3–5% higher than postductal, labile saturations</td></tr>
+      <tr><td>Sepsis / pneumonia</td><td>Maternal risk factors, temp instability, poor perfusion</td></tr>
+      <tr><td>Cardiac</td><td>Cyanosis that doesn't improve with O₂, murmur, weak femoral pulses</td></tr>
+    </table></div>
+    <p>A <b>Silverman-Andersen</b> score (0–10: chest movement, intercostal retraction, xiphoid retraction, nasal flaring, grunting) helps track trends.</p>
+  </div></details>
+
+  <details><summary>Sepsis signs</summary><div class="body">
+    <p>Often vague and subtle: temperature instability (low more often than high), poor feeding, lethargy, irritability, tachypnea, grunting, apnea, tachycardia, mottling, delayed cap refill, hypoglycemia, jaundice.</p>
+    <div class="flag"><b>"Just not acting right"</b> is a legitimate reason to escalate. Get a full set of vitals and a glucose, then call.</div>
+  </div></details>
+
+  <details><summary>Other must-not-miss</summary><div class="body">
+    <ul>
+      <li><b>Bilious emesis:</b> NPO, notify immediately (volvulus).</li>
+      <li><b>Subgaleal hemorrhage:</b> growing boggy scalp, tachycardia, pallor. Serial head circumference and call.</li>
+      <li><b>Seizure:</b> protect, time it, support airway, check glucose, notify.</li>
+      <li><b>Choking or apnea:</b> position, suction mouth then nose, stimulate, PPV if not breathing.</li>
+      <li><b>Hypothermia:</b> skin-to-skin or warmer, check glucose.</li>
+    </ul>
+  </div></details>
+</section>
+
+<!-- ================= DISCHARGE ================= -->
+<section data-sec="dc" data-name="Discharge" hidden>
+  <h2>Discharge readiness</h2>
+
+  <details open><summary>Checklist</summary><div class="body">
+    <ul>
+      <li>Vitals stable for at least 12 h before discharge</li>
+      <li>Voided and stooled at least once</li>
+      <li>At least 2 successful feeds; weight loss acceptable</li>
+      <li>Newborn metabolic screen drawn (24–48 h)</li>
+      <li>Hearing screen done (OAE or ABR). Follows the 1-3-6 guideline: screen by 1 mo, diagnose by 3 mo, intervene by 6 mo</li>
+      <li>CCHD screen passed</li>
+      <li>Bilirubin assessed with a follow-up plan based on the AAP 2022 curves</li>
+      <li>Hep B and RSV antibody given or declined per policy</li>
+      <li>Car seat screen if indicated; car seat present</li>
+      <li>Circumcision site checked, void after circ</li>
+      <li>Follow-up appointment within 1–2 days if discharged before 72 h of age (sooner if bili risk)</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Parent teaching <span class="new">Updated</span></summary><div class="body">
+    <ul>
+      <li><b>Safe sleep (AAP 2022):</b> Alone, on the Back, in a Crib or bassinet with a firm flat surface. Room-share without bed-sharing. No inclined sleepers, bumpers, pillows or weighted sleep sacks. Inclined sleepers and crib bumpers are banned from sale under the 2022 Safe Sleep for Babies Act.</li>
+      <li>Period of PURPLE crying and never shaking a baby.</li>
+      <li>Rectal temp ≥38.0 °C (100.4 °F) in a baby under 2 months needs immediate medical care.</li>
+      <li>Feeding and diaper expectations, jaundice warning signs, cord care (keep dry, fold diaper below).</li>
+      <li>Car seat: rear-facing, harness snug at or below the shoulders, chest clip at armpit level.</li>
+    </ul>
+  </div></details>
+</section>
+
+<!-- ================= CHANGES ================= -->
+<section data-sec="changes" data-name="What's changed" hidden>
+  <h2>What's changed since about 2019</h2>
+  <p class="lede">Practice updates a returning nurse is most likely to notice.</p>
+
+  <details open><summary>The list</summary><div class="body">
+    <ul>
+      <li><b>Bilirubin (AAP 2022):</b> new phototherapy and exchange curves by GA and risk factors, with generally higher thresholds. The Bhutani zones are no longer used to decide treatment.</li>
+      <li><b>RSV prevention:</b> nirsevimab (2023) and clesrovimab (2025) are given to most newborns during RSV season, often in the nursery. Maternal RSV vaccine (Abrysvo) at 32–36 weeks is the alternative.</li>
+      <li><b>Hep B birth dose:</b> in Dec 2025 the CDC dropped the universal birth-dose recommendation for babies of HBsAg-negative mothers. AAP still recommends it. Check your unit's policy.</li>
+      <li><b>CCHD screening (2020):</b> one repeat screen instead of two.</li>
+      <li><b>NRP:</b> 8th edition (2021), then 2025 AHA/AAP guidelines and the NRP 9th edition. Emphasis on cord clamping ≥60 s, no routine suction, HR as the main feedback, laryngeal mask for ≥34 wk, IO access acceptable.</li>
+      <li><b>Neonatal withdrawal:</b> Eat, Sleep, Console has largely replaced Finnegan scoring, with parents at the center of care.</li>
+      <li><b>Early-onset sepsis:</b> wider use of the Kaiser EOS calculator and fewer empiric antibiotics for well-appearing babies.</li>
+      <li><b>Hypoglycemia:</b> 40% dextrose gel is now standard first-line in many nurseries.</li>
+      <li><b>Safe sleep (AAP 2022):</b> stronger language against weighted products and inclined sleepers.</li>
+      <li><b>Infusion standards (INS 2021):</b> attempt limits, visualization tech (vein finders, ultrasound) encouraged.</li>
+      <li><b>Congenital syphilis:</b> sharp rise in cases; more maternal testing at delivery.</li>
+    </ul>
+  </div></details>
+</section>
+
+<!-- ================= SOURCES ================= -->
+<section data-sec="src" data-name="Sources" hidden>
+  <h2>Sources</h2>
+  <p class="lede">Values reflect these references as of Sept 2026. Unit policy, the neonatal formulary and pharmacy override anything here.</p>
+  <details open><summary>References</summary><div class="body">
+    <ul>
+      <li>AAP/AHA 2025 Neonatal Resuscitation Guidelines; NRP 9th edition (aap.org/nrp)</li>
+      <li>AAP Clinical Practice Guideline: Hyperbilirubinemia in the Newborn ≥35 Weeks, 2022</li>
+      <li>AAP Clinical Report: Postnatal Glucose Homeostasis in Late-Preterm and Term Infants, 2011; Pediatric Endocrine Society 2015</li>
+      <li>AAP: Updated CCHD Screening Algorithm, 2020</li>
+      <li>CDC: RSV Immunization Guidance for Infants (MMWR Aug 2025); AAP RSV Policy Statement 2025</li>
+      <li>CDC/ACIP hepatitis B birth dose update, Dec 2025; AAP immunization schedule</li>
+      <li>AAP Safe Sleep Policy Statement, 2022</li>
+      <li>Infusion Nurses Society, Infusion Therapy Standards of Practice, 2021</li>
+      <li>Kaiser Permanente Neonatal Early-Onset Sepsis Calculator</li>
+      <li>NEWT, Newborn Weight Tool (newbornweight.org)</li>
+      <li>Eat, Sleep, Console (Grossman et al.; ESC-NOW trial, NEJM 2023)</li>
+    </ul>
+  </div></details>
+</section>
+
+<p id="empty" class="empty" hidden>No matches. Try a shorter word, such as "bili" or "tube".</p>
+</main>
+</div>
+
+<script>
+(function(){
+  const secs=[...document.querySelectorAll('section[data-sec]')];
+  const nav=document.getElementById('nav');
+  const q=document.getElementById('q');
+  const empty=document.getElementById('empty');
+  let current='quick';
+  try{const s=localStorage.getItem('nr-tab'); if(s && secs.some(x=>x.dataset.sec===s)) current=s;}catch(e){}
+  const h=location.hash.slice(1); if(h && secs.some(x=>x.dataset.sec===h)) current=h;
+
+  secs.forEach(s=>{
+    const b=document.createElement('button');
+    b.className='chip'; b.type='button'; b.textContent=s.dataset.name; b.dataset.sec=s.dataset.sec;
+    b.addEventListener('click',()=>{ q.value=''; show(s.dataset.sec); window.scrollTo({top:0}); });
+    nav.appendChild(b);
+  });
+  // remember which cards were open by default
+  document.querySelectorAll('details').forEach(d=>d.dataset.def=d.open?'1':'');
+
+  function show(id){
+    current=id;
+    try{localStorage.setItem('nr-tab',id);}catch(e){}
+    clearMarks();
+    secs.forEach(s=>{ s.hidden = s.dataset.sec!==id; s.querySelectorAll('details').forEach(d=>{d.hidden=false; d.open=!!d.dataset.def;}); s.querySelectorAll('h2,.lede,.banner').forEach(e=>e.hidden=false); });
+    nav.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', c.dataset.sec===id?'true':'false'));
+    const active=nav.querySelector('[aria-pressed="true"]'); if(active) active.scrollIntoView({block:'nearest',inline:'center'});
+    empty.hidden=true;
+  }
+
+  function clearMarks(){
+    document.querySelectorAll('mark').forEach(m=>{const t=document.createTextNode(m.textContent); m.replaceWith(t); t.parentNode.normalize();});
+  }
+  function markIn(el,term){
+    const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+    const hits=[]; let n;
+    while((n=walker.nextNode())){ if(n.nodeValue.toLowerCase().includes(term)) hits.push(n); }
+    hits.forEach(node=>{
+      const txt=node.nodeValue, low=txt.toLowerCase(); const frag=document.createDocumentFragment(); let i=0,j;
+      while((j=low.indexOf(term,i))>-1){ frag.append(txt.slice(i,j)); const m=document.createElement('mark'); m.textContent=txt.slice(j,j+term.length); frag.append(m); i=j+term.length; }
+      frag.append(txt.slice(i)); node.replaceWith(frag);
+    });
+  }
+
+  function search(){
+    const term=q.value.trim().toLowerCase();
+    clearMarks();
+    if(term.length<2){ show(current); return; }
+    nav.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));
+    let total=0;
+    secs.forEach(s=>{
+      let hits=0;
+      s.querySelectorAll('.lede,.banner').forEach(e=>e.hidden=true);
+      s.querySelectorAll('details').forEach(d=>{
+        const match=d.textContent.toLowerCase().includes(term);
+        d.hidden=!match; d.open=match; if(match){hits++; markIn(d,term);}
+      });
+      s.hidden = hits===0; total+=hits;
+    });
+    empty.hidden = total>0;
+  }
+  let t; q.addEventListener('input',()=>{clearTimeout(t); t=setTimeout(search,150);});
+  show(current);
+})();
+</script>
+
+</body>
+</html>
